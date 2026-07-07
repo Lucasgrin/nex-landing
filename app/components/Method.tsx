@@ -11,7 +11,7 @@ const steps = [
 
 export default function Method() {
   return (
-    <section className="py-28 px-6">
+    <section id="methode" className="py-28 px-6">
       <div className="max-w-5xl mx-auto">
         <div className="grid md:grid-cols-[1fr_1.4fr] gap-16 items-start">
 

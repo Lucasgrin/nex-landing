@@ -13,12 +13,12 @@ export default function Footer() {
             <div className="flex flex-col gap-2">
               <p className="text-xs font-bold text-neutral-300 uppercase tracking-widest mb-1">Services</p>
               {["CRM sur mesure","ERP sur mesure","Portails clients","Agents IA"].map(l => (
-                <span key={l}>{l}</span>
+                <a key={l} href="#services" className="hover:text-[#0a0a0a] transition-colors">{l}</a>
               ))}
             </div>
             <div className="flex flex-col gap-2">
               <p className="text-xs font-bold text-neutral-300 uppercase tracking-widest mb-1">Agence</p>
-              {[["#faq","FAQ"],["#contact","Contact"]].map(([h,l]) => (
+              {[["#methode","Méthode"],["#faq","FAQ"],["#contact","Contact"]].map(([h,l]) => (
                 <a key={h} href={h} className="hover:text-[#0a0a0a] transition-colors">{l}</a>
               ))}
             </div>

@@ -18,7 +18,7 @@ export default function Navbar() {
           <Image src="/nex-logo.svg" alt="NeX" width={80} height={24} priority className="h-7 w-auto" />
         </a>
         <nav className="hidden md:flex items-center gap-8 text-sm text-neutral-400 font-medium">
-          {[["#faq","FAQ"]].map(([href,label]) => (
+          {[["#services","Services"],["#methode","Méthode"],["#faq","FAQ"],["#contact","Contact"]].map(([href,label]) => (
             <a key={href} href={href} className="hover:text-[#0a0a0a] transition-colors">{label}</a>
           ))}
         </nav>

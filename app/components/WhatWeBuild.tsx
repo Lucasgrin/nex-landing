@@ -55,7 +55,7 @@ const cards = [
 
 export default function WhatWeBuild() {
   return (
-    <section className="py-28 px-6 bg-neutral-50 border-y border-neutral-100">
+    <section id="services" className="py-28 px-6 bg-neutral-50 border-y border-neutral-100">
       <div className="max-w-5xl mx-auto">
 
         <AnimateOnScroll>
