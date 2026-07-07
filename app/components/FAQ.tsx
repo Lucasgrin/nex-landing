@@ -2,6 +2,7 @@
 import { useState } from "react";
 import AnimateOnScroll from "./AnimateOnScroll";
 const faqs = [
+  {q:"À qui appartient le logiciel développé ?",a:"Chaque solution développée est votre propriété. Vous restez libre de faire évoluer votre outil avec le partenaire de votre choix. Notre objectif est que vous restiez avec nous parce que nous créons de la valeur, et non parce que vous êtes dépendant de notre technologie."},
   {q:"Pourquoi du sur-mesure plutôt qu'un logiciel standard ?",a:"Un logiciel standard est conçu pour des besoins génériques. Il vous impose des contraintes et des limitations sur ce qui compte vraiment pour vous. Une solution sur mesure s'adapte exactement à vos processus, votre vocabulaire, vos équipes. L'adoption est immédiate et les gains sont mesurables."},
   {q:"Combien de temps faut-il pour développer une solution ?",a:"Un outil interne ciblé peut être livré en 4 à 8 semaines. Un CRM ou ERP complet prend généralement 3 à 6 mois. Nous travaillons de manière itérative : vous voyez des résultats concrets bien avant la livraison finale."},
   {q:"Quel est l'ordre de grandeur du budget ?",a:"Chaque projet est unique. Lors de notre premier échange, nous évaluons ensemble la portée du projet et proposons un chiffrage transparent. Ce qui est certain : le retour sur investissement est rapide quand le bon problème est adressé."},

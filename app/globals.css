@@ -62,3 +62,25 @@ body {
 .flow-dot-1  { animation: flowDot 1.6s ease-in-out 0.0s infinite; }
 .flow-dot-2  { animation: flowDot 1.6s ease-in-out 0.3s infinite; }
 .flow-dot-3  { animation: flowDot 1.6s ease-in-out 0.6s infinite; }
+
+/* Diagnostic screen transitions */
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeSlideIn { animation: fadeSlideIn 0.38s ease-out both; }
+
+/* Custom range slider */
+.nex-slider { -webkit-appearance: none; appearance: none; outline: none; }
+.nex-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: #0a0a0a; cursor: pointer;
+  box-shadow: 0 0 0 3px #0a0a0a18, 0 1px 4px rgba(0,0,0,0.15);
+  transition: box-shadow 0.15s;
+}
+.nex-slider::-webkit-slider-thumb:hover { box-shadow: 0 0 0 5px #0a0a0a25, 0 1px 4px rgba(0,0,0,0.15); }
+.nex-slider::-moz-range-thumb {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: #0a0a0a; border: none; cursor: pointer;
+}

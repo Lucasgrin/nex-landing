@@ -14,7 +14,7 @@ export default function LogoStrip() {
       <div className="max-w-5xl mx-auto px-6">
         <AnimateOnScroll>
           <p className="text-[10px] font-semibold text-neutral-300 uppercase tracking-widest text-center mb-10">
-            Ils font confiance à NeX
+            Ils nous font confiance
           </p>
           <div className="flex flex-wrap items-center justify-center gap-12 md:gap-16">
             {logos.map(({ src, alt, w, h, size }) => {

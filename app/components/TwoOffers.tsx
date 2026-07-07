@@ -1,78 +1,128 @@
 import AnimateOnScroll from "./AnimateOnScroll";
-const swTags = ["CRM","ERP","Portail client","Application web","Dashboard","Documents","Gestion interne","Intégrations"];
-const aiTags = ["Agents IA","Automatisations","Workflows","Analyse de données","Chatbots métier","Relances auto","Détection d'anomalies","Synthèse IA"];
+
+const offers = [
+  {
+    number: "01",
+    icon: "⊞",
+    title: "Logiciels métier sur mesure",
+    tagline: "L'outil qui s'adapte à vous — pas l'inverse.",
+    desc: "Chaque entreprise a ses propres processus. Nous construisons exactement ce dont vous avez besoin : ni plus, ni moins. CRM, ERP, portails, applications internes.",
+    features: [
+      "CRM et ERP pensés pour vos flux réels",
+      "Portails clients et espaces partenaires",
+      "Applications internes pour vos équipes",
+      "Dashboards et reporting en temps réel",
+      "Intégrations avec vos outils existants",
+    ],
+    cta: { label: "Voir nos réalisations", href: "#realisations" },
+    dark: false,
+  },
+  {
+    number: "02",
+    icon: "◆",
+    title: "Intelligence artificielle",
+    tagline: "L'IA utile — là où elle fait une vraie différence.",
+    desc: "Nous n'intégrons l'IA que là où elle apporte une valeur mesurable : automatiser les tâches répétitives, analyser vos données, décider à votre place.",
+    features: [
+      "Agents IA pour vos processus métier",
+      "Automatisations et workflows intelligents",
+      "Analyse de données et détection d'anomalies",
+      "Chatbots et assistants métier sur mesure",
+      "Relances et notifications automatisées",
+    ],
+    cta: { label: "Découvrir nos solutions IA", href: "#expertises" },
+    dark: true,
+  },
+];
 
 export default function TwoOffers() {
   return (
     <section className="py-28 px-6 bg-neutral-50 border-y border-neutral-100">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-5xl mx-auto">
+
+        {/* Header centré */}
         <AnimateOnScroll>
-          <p className="text-xs font-semibold text-neutral-400 uppercase tracking-widest mb-4">Nos deux expertises</p>
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-[#0a0a0a] mb-4 max-w-2xl" style={{fontFamily:"var(--font-space-grotesk)"}}>
-            Deux domaines. Une seule équipe.
-          </h2>
-          <p className="text-base text-neutral-500 max-w-lg mb-16 leading-relaxed">
-            Nous n&apos;imposons ni l&apos;un ni l&apos;autre. Nous choisissons avec vous ce qui fait sens pour votre entreprise.
-          </p>
+          <div className="text-center mb-16">
+            <p className="text-xs font-semibold text-neutral-400 uppercase tracking-widest mb-4">Nos deux expertises</p>
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-[#0a0a0a] mb-5" style={{fontFamily:"var(--font-space-grotesk)"}}>
+              Deux domaines. Une seule équipe.
+            </h2>
+            <p className="text-base text-neutral-500 max-w-md mx-auto leading-relaxed">
+              Nous ne vous imposons rien — nous choisissons avec vous ce qui fait sens pour votre entreprise.
+            </p>
+          </div>
         </AnimateOnScroll>
 
-        <div className="grid md:grid-cols-2 gap-4">
-          {/* Offer 1 — Custom software */}
-          <AnimateOnScroll delay={0}>
-            <div className="group h-full bg-white border border-neutral-100 rounded-3xl p-8 hover:border-neutral-300 hover:shadow-lg transition-all duration-300">
-              <div className="flex items-start justify-between mb-8">
-                <div className="w-14 h-14 rounded-2xl bg-neutral-50 border border-neutral-100 flex items-center justify-center text-2xl text-neutral-300 group-hover:bg-[#0a0a0a] group-hover:text-white group-hover:border-[#0a0a0a] transition-all duration-300">
-                  ⊞
-                </div>
-                <span className="text-xs font-bold text-neutral-200 uppercase tracking-widest">01</span>
-              </div>
-              <h3 className="text-2xl font-bold text-[#0a0a0a] mb-4 leading-tight" style={{fontFamily:"var(--font-space-grotesk)"}}>
-                Logiciels métier<br />sur mesure
-              </h3>
-              <p className="text-sm text-neutral-500 leading-relaxed mb-8">
-                Chaque entreprise a des processus qui lui sont propres. Nous construisons
-                l&apos;outil qui s&apos;adapte exactement à votre façon de travailler — pas l&apos;inverse.
-                CRM, ERP, portails, applications internes, dashboards.
-              </p>
-              <div className="flex flex-wrap gap-2 mb-8">
-                {swTags.map(t => (
-                  <span key={t} className="text-xs font-medium px-3 py-1 rounded-full bg-neutral-100 text-neutral-500">{t}</span>
-                ))}
-              </div>
-              <a href="#realisations" className="inline-flex items-center gap-2 text-sm font-semibold text-[#0a0a0a] hover:gap-3 transition-all duration-200">
-                Voir nos réalisations <span>→</span>
-              </a>
-            </div>
-          </AnimateOnScroll>
+        {/* Cards */}
+        <div className="grid md:grid-cols-2 gap-5 mb-10">
+          {offers.map(({ number, icon, title, tagline, desc, features, cta, dark }, i) => (
+            <AnimateOnScroll key={number} delay={i * 100}>
+              <div className={`h-full rounded-3xl p-10 flex flex-col ${
+                dark
+                  ? "bg-[#0a0a0a]"
+                  : "bg-white border border-neutral-300 shadow-lg"
+              }`}>
 
-          {/* Offer 2 — AI */}
-          <AnimateOnScroll delay={100}>
-            <div className="group h-full bg-[#0a0a0a] border border-[#0a0a0a] rounded-3xl p-8 hover:shadow-lg transition-all duration-300">
-              <div className="flex items-start justify-between mb-8">
-                <div className="w-14 h-14 rounded-2xl bg-white/10 border border-white/10 flex items-center justify-center text-2xl text-white/50 group-hover:bg-white/20 group-hover:text-white transition-all duration-300">
-                  ◆
+                {/* Top */}
+                <div className="flex items-start justify-between mb-8">
+                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-xl ${
+                    dark ? "bg-white/10 text-white/70" : "bg-neutral-50 border border-neutral-100 text-neutral-400"
+                  }`}>
+                    {icon}
+                  </div>
+                  <span className={`text-[11px] font-bold uppercase tracking-widest ${dark ? "text-white/15" : "text-neutral-200"}`}>
+                    {number}
+                  </span>
                 </div>
-                <span className="text-xs font-bold text-white/20 uppercase tracking-widest">02</span>
+
+                {/* Titre + accroche */}
+                <h3 className={`text-2xl font-bold leading-tight mb-2 ${dark ? "text-white" : "text-[#0a0a0a]"}`}
+                    style={{fontFamily:"var(--font-space-grotesk)"}}>
+                  {title}
+                </h3>
+                <p className={`text-sm font-medium mb-5 ${dark ? "text-white/40" : "text-neutral-400"}`}>
+                  {tagline}
+                </p>
+                <p className={`text-sm leading-relaxed mb-8 ${dark ? "text-white/55" : "text-neutral-500"}`}>
+                  {desc}
+                </p>
+
+                {/* Features */}
+                <ul className="space-y-3 mb-10 flex-1">
+                  {features.map(f => (
+                    <li key={f} className="flex items-start gap-3">
+                      <span className={`mt-[3px] shrink-0 text-[11px] font-bold ${dark ? "text-white/30" : "text-neutral-300"}`}>✓</span>
+                      <span className={`text-sm leading-snug ${dark ? "text-white/65" : "text-neutral-600"}`}>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* CTA */}
+                <a href={cta.href}
+                   className={`inline-flex items-center justify-center gap-2 text-sm font-semibold px-6 py-3.5 rounded-full transition-colors ${
+                     dark
+                       ? "bg-white text-[#0a0a0a] hover:bg-neutral-100"
+                       : "bg-[#0a0a0a] text-white hover:bg-neutral-800"
+                   }`}>
+                  {cta.label} <span>→</span>
+                </a>
+
               </div>
-              <h3 className="text-2xl font-bold text-white mb-4 leading-tight" style={{fontFamily:"var(--font-space-grotesk)"}}>
-                Intelligence<br />artificielle
-              </h3>
-              <p className="text-sm text-white/60 leading-relaxed mb-8">
-                Nous intégrons l&apos;IA uniquement là où elle fait une vraie différence :
-                automatiser les tâches répétitives, analyser les données, prédire, décider.
-                Pas de gadget — des résultats mesurables.
-              </p>
-              <div className="flex flex-wrap gap-2 mb-8">
-                {aiTags.map(t => (
-                  <span key={t} className="text-xs font-medium px-3 py-1 rounded-full bg-white/10 text-white/60">{t}</span>
-                ))}
-              </div>
-              <a href="#expertises" className="inline-flex items-center gap-2 text-sm font-semibold text-white/80 hover:text-white hover:gap-3 transition-all duration-200">
-                Découvrir nos solutions IA <span>→</span>
-              </a>
-            </div>
-          </AnimateOnScroll>
+            </AnimateOnScroll>
+          ))}
         </div>
+
+        {/* CTA secondaire */}
+        <AnimateOnScroll delay={220}>
+          <div className="text-center">
+            <p className="text-sm text-neutral-400 mb-4">Vous ne savez pas encore par où commencer ?</p>
+            <a href="#contact"
+               className="inline-flex items-center gap-2 text-sm font-semibold text-neutral-500 border border-neutral-200 bg-white px-7 py-3 rounded-full hover:border-neutral-400 hover:text-[#0a0a0a] transition-colors">
+              Parlons-en ensemble <span>→</span>
+            </a>
+          </div>
+        </AnimateOnScroll>
+
       </div>
     </section>
   );

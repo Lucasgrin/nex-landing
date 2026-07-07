@@ -47,7 +47,7 @@ export default function Transformation() {
           </h2>
           <p className="mt-6 text-base md:text-lg text-neutral-500 max-w-lg mx-auto leading-relaxed">
             Avant, vos données vivent dans 5 outils différents qui ne se parlent pas.<br className="hidden md:block" />
-            Après, tout converge — et l&apos;IA automatise le reste.
+            Après, tout converge. L&apos;IA automatise le reste.
           </p>
         </div>
 
