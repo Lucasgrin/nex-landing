@@ -8,11 +8,24 @@ const faqs = [
   {q:"Quel est l'ordre de grandeur du budget ?",a:"Chaque projet est unique. Lors de notre premier échange, nous évaluons ensemble la portée du projet et proposons un chiffrage transparent. Ce qui est certain : le retour sur investissement est rapide quand le bon problème est adressé."},
   {q:"Travaillez-vous uniquement avec des PME ?",a:"Nous sommes spécialisés dans les PME de Suisse romande, car nous comprenons leurs contraintes : budgets maîtrisés, équipes réduites, besoin de solutions pragmatiques. Cela dit, nous évaluons chaque demande selon sa complexité."},
   {q:"L'intelligence artificielle est-elle obligatoire ?",a:"Absolument pas. L'IA n'est intégrée que lorsqu'elle apporte une valeur réelle et mesurable. Nous refusons de l'utiliser comme argument commercial. Si elle n'est pas utile dans votre cas, nous ne l'imposons pas."},
+  {q:"Dans quelles régions de Suisse romande intervenez-vous ?",a:"Basés à Payerne, nous accompagnons des PME dans tout le canton de Vaud (Lausanne, Yverdon-les-Bains, Nyon, Vevey, Montreux) ainsi qu'à Genève, Fribourg, Neuchâtel, en Valais (Sion, Martigny) et dans le Jura. Nos échanges et déploiements se font aussi bien sur site qu'à distance."},
 ];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map(({ q, a }) => ({
+    "@type": "Question",
+    name: q,
+    acceptedAnswer: { "@type": "Answer", text: a },
+  })),
+};
+
 export default function FAQ() {
   const [open, setOpen] = useState<number|null>(null);
   return (
     <section id="faq" className="py-28 px-6 bg-neutral-50 border-y border-neutral-100">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <div className="max-w-3xl mx-auto">
         <AnimateOnScroll>
           <p className="text-xs font-semibold text-neutral-400 uppercase tracking-widest mb-4">Questions fréquentes</p>

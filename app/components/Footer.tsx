@@ -8,6 +8,9 @@ export default function Footer() {
             <Image src="/nex-logo.svg" alt="NeX" width={70} height={21} className="h-6 w-auto mb-3" />
             <p className="text-xs text-neutral-400 max-w-xs leading-relaxed">Conception de logiciels métier sur mesure. Automatisations. Applications internes. Intelligence artificielle.</p>
             <p className="text-xs text-neutral-300 mt-2">Payerne · Suisse romande</p>
+            <p className="text-xs text-neutral-300 mt-1 max-w-xs leading-relaxed">
+              Interventions à Genève, Lausanne, Vaud, Fribourg, Neuchâtel, Valais et dans le Jura.
+            </p>
           </div>
           <nav className="flex flex-col sm:flex-row gap-x-12 gap-y-4 text-sm text-neutral-400">
             <div className="flex flex-col gap-2">
