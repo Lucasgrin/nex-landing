@@ -72,6 +72,67 @@ function renderEmail(lead: LeadPayload, answers: AnswersPayload, result: ResultP
   `;
 }
 
+/**
+ * Enregistrer d'abord, notifier ensuite.
+ *
+ * L'email est une notification, pas un support de stockage : s'il échoue, le
+ * lead ne doit pas disparaître. Quand LEAD_WEBHOOK_URL est renseigné (un
+ * Google Sheet via Apps Script suffit), le lead y est écrit AVANT toute
+ * tentative d'envoi. La route dit ensuite honnêtement au client ce qui a
+ * réussi, pour qu'il puisse proposer un repli plutôt que de faire semblant.
+ */
+async function storeLead(payload: unknown): Promise<boolean> {
+  const url = process.env.LEAD_WEBHOOK_URL;
+  if (!url) return false;
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(8000),
+    });
+    if (!res.ok) throw new Error(`webhook ${res.status}`);
+    return true;
+  } catch (err) {
+    console.error("[lead] écriture webhook échouée", err);
+    return false;
+  }
+}
+
+async function notify(
+  lead: LeadPayload,
+  answers: AnswersPayload,
+  result: ResultPayload,
+): Promise<boolean> {
+  const apiKey = process.env.RESEND_API_KEY;
+  const to = process.env.LEAD_NOTIFICATION_EMAIL;
+  if (!apiKey || !to) {
+    console.error("[lead] RESEND_API_KEY ou LEAD_NOTIFICATION_EMAIL manquant");
+    return false;
+  }
+  const resend = new Resend(apiKey);
+  const payload = {
+    from: process.env.LEAD_FROM_EMAIL ?? "NeX Diagnostic <onboarding@resend.dev>",
+    to,
+    replyTo: lead.email,
+    subject: `Nouveau lead diagnostic — ${lead.company}`,
+    html: renderEmail(lead, answers, result),
+  };
+
+  // Une seule reprise : la plupart des échecs Resend sont transitoires.
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    try {
+      const { error } = await resend.emails.send(payload);
+      if (!error) return true;
+      console.error(`[lead] Resend a refusé (tentative ${attempt})`, error);
+    } catch (err) {
+      console.error(`[lead] envoi impossible (tentative ${attempt})`, err);
+    }
+    if (attempt === 1) await new Promise((r) => setTimeout(r, 600));
+  }
+  return false;
+}
+
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
   const lead: LeadPayload | undefined = body?.lead;
@@ -85,29 +146,13 @@ export async function POST(request: Request) {
     return Response.json({ error: "Missing answers or result" }, { status: 400 });
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.LEAD_NOTIFICATION_EMAIL;
-  if (!apiKey || !to) {
-    console.error("Lead email not sent: RESEND_API_KEY or LEAD_NOTIFICATION_EMAIL missing in env");
-    return Response.json({ error: "Email service not configured" }, { status: 500 });
-  }
+  const stored = await storeLead({ receivedAt: new Date().toISOString(), lead, answers, result });
+  const notified = await notify(lead, answers, result);
 
-  try {
-    const resend = new Resend(apiKey);
-    const { error } = await resend.emails.send({
-      from: process.env.LEAD_FROM_EMAIL ?? "NeX Diagnostic <onboarding@resend.dev>",
-      to,
-      replyTo: lead.email,
-      subject: `Nouveau lead diagnostic — ${lead.company}`,
-      html: renderEmail(lead, answers, result),
-    });
-    if (error) {
-      console.error("Resend error", error);
-      return Response.json({ error: "Failed to send" }, { status: 502 });
-    }
-    return Response.json({ ok: true });
-  } catch (err) {
-    console.error("Failed to send lead email", err);
-    return Response.json({ error: "Failed to send" }, { status: 500 });
+  if (!stored && !notified) {
+    // Dernier recours : la trace serveur, pour pouvoir rattraper à la main.
+    console.error("[lead] PERDU — ni enregistré ni notifié", JSON.stringify({ lead, answers, result }));
+    return Response.json({ ok: false, stored, notified }, { status: 502 });
   }
+  return Response.json({ ok: true, stored, notified });
 }

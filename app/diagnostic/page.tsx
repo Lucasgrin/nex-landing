@@ -1,4 +1,5 @@
 "use client";
+import { SITE } from "../content/site";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -555,23 +556,47 @@ function Calculating() {
 
 function LeadCapture({ lead, setLead, answers, result, onSubmit }: { lead:Lead; setLead:React.Dispatch<React.SetStateAction<Lead>>; answers:Answers; result:Result|null; onSubmit:()=>void }) {
   const [sending, setSending] = useState(false);
+  const [failed, setFailed] = useState(false);
   const valid = !!lead.name.trim() && !!lead.company.trim() && lead.email.includes("@") && lead.email.includes(".");
   const set = (k:keyof Lead) => (v:string) => setLead(l=>({ ...l,[k]:v }));
+
+  /**
+   * Repli qui ne dépend d'aucun service : si le serveur n'a pu ni enregistrer
+   * ni notifier, on ouvre le client mail du visiteur avec tout pré-rempli.
+   * Le lead n'est pas perdu, il arrive par un autre canal.
+   */
+  const mailtoFallback = () => {
+    const l = [
+      `Nom : ${lead.name}`, `Entreprise : ${lead.company}`,
+      `Fonction : ${lead.role || "—"}`, `Email : ${lead.email}`,
+      `Téléphone : ${lead.phone || "—"}`, "",
+      result ? `Score : ${result.score}/100 (${result.maturity})` : "",
+      result ? `Heures perdues / semaine : ${result.hoursLost}h` : "",
+      result ? `Économie annuelle estimée : CHF ${result.annualSavings}` : "",
+      result?.frictions?.length ? `Frictions : ${result.frictions.join(" · ")}` : "",
+    ].filter(Boolean).join("\n");
+    return `mailto:${SITE.email}?subject=${encodeURIComponent(`Diagnostic — ${lead.company}`)}&body=${encodeURIComponent(l)}`;
+  };
 
   const handleSubmit = async () => {
     if (!valid || sending) return;
     setSending(true);
+    setFailed(false);
     try {
-      await fetch("/api/lead", {
+      const res = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ lead, answers, result }),
       });
-    } catch (err) {
-      console.error("Failed to send lead", err);
-    } finally {
+      // fetch ne lève pas sur un 4xx/5xx : sans ce test, un échec serveur
+      // passait pour un succès et le lead disparaissait sans bruit.
+      if (!res.ok) { setFailed(true); setSending(false); return; }
       setSending(false);
       onSubmit();
+    } catch (err) {
+      console.error("[lead] requête impossible", err);
+      setFailed(true);
+      setSending(false);
     }
   };
 
@@ -598,8 +623,26 @@ function LeadCapture({ lead, setLead, answers, result, onSubmit }: { lead:Lead; 
         <button type="button" onClick={handleSubmit} disabled={!valid || sending}
           className="w-full mt-8 py-4 rounded-full text-sm font-bold text-white transition-all hover:opacity-90 disabled:opacity-30 disabled:cursor-not-allowed"
           style={{ backgroundColor:V, boxShadow:valid?`0 4px 24px ${V}40`:"none" }}>
-          {sending ? "Envoi…" : "Accéder à mon rapport →"}
+          {sending ? "Envoi…" : failed ? "Réessayer" : "Accéder à mon rapport →"}
         </button>
+
+        {failed && (
+          <div className="mt-4 rounded-2xl border border-red-100 bg-red-50 p-4">
+            <p className="text-sm font-semibold text-red-700">Nous n&apos;avons pas pu enregistrer votre demande.</p>
+            <p className="mt-1 text-xs leading-relaxed text-red-600">
+              Réessayez, ou envoyez-nous vos réponses en un clic — elles sont déjà pré-remplies.
+            </p>
+            <div className="mt-3 flex flex-wrap items-center gap-3">
+              <a href={mailtoFallback()}
+                 className="inline-flex items-center rounded-full bg-red-600 px-4 py-2 text-xs font-bold text-white hover:bg-red-700">
+                Nous l&apos;envoyer par email
+              </a>
+              <button type="button" onClick={onSubmit} className="text-xs font-semibold text-red-600 underline underline-offset-2">
+                Voir mon rapport quand même
+              </button>
+            </div>
+          </div>
+        )}
         <p className="text-center text-xs text-neutral-300 mt-4">Aucun spam. Données traitées de manière confidentielle.</p>
       </div>
     </div>

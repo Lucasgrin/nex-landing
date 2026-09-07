@@ -1,3 +1,4 @@
+import Link from "next/link";
 import AnimateOnScroll from "./AnimateOnScroll";
 export default function Quiz() {
   return (
@@ -12,9 +13,9 @@ export default function Quiz() {
             <p className="text-base text-white/60 leading-relaxed mb-10 max-w-md mx-auto">
               En 5 minutes, notre diagnostic identifie les processus à fort potentiel d&apos;optimisation dans votre entreprise.
             </p>
-            <a href="#diagnostic-form" className="inline-flex items-center gap-2 bg-white text-[#0a0a0a] text-sm font-bold px-8 py-4 rounded-full hover:bg-neutral-100 transition-colors">
+            <Link href="/diagnostic" className="inline-flex items-center gap-2 bg-white text-[#0a0a0a] text-sm font-bold px-8 py-4 rounded-full hover:bg-neutral-100 transition-colors">
               Faire le diagnostic gratuit <span>→</span>
-            </a>
+            </Link>
             <p className="mt-5 text-xs text-white/25">Sans inscription · Résultat immédiat</p>
           </div>
         </AnimateOnScroll>
