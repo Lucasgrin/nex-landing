@@ -21,9 +21,32 @@ interface SiteConfig {
   googleBusinessUrl: string;
   linkedinUrl: string;
   calUrl: string;
-  /** URL de la VSL. Vide = le hero affiche l'illustration animée à la place. */
-  vslUrl: string;
+  vsl: VslConfig;
   foundingYear: number;
+}
+
+/** La vidéo de vente du hero. Tant que `sources` est vide, le hero affiche
+ *  l'illustration animée à la place — rien ne casse. */
+interface VslConfig {
+  /** Les encodages, du plus moderne au plus compatible : le navigateur prend
+   *  le premier qu'il sait lire. L'AV1 passe partout sauf sur les vieux
+   *  Safari, qui retombent sur le H.264 — d'où les deux. */
+  sources: { src: string; type: string }[];
+  /** Image d'aperçu 16/9. Une frame nette, sans sous-titre incrusté : tout
+   *  le texte de la vignette est posé par-dessus en CSS, pas dans le JPEG —
+   *  net à toutes les tailles, et modifiable sans réexporter d'image. */
+  poster: string;
+  /** L'accroche de la vignette. Une promesse concrète tirée de la vidéo
+   *  vaut mieux qu'un « Découvrez NeX » : on clique pour la vérifier. */
+  hook: string;
+  /** Qui parle. Un visage avec un nom rassure avant même la lecture. */
+  speaker: string;
+  /** Sous-titres .vtt. Beaucoup ouvriront la page sans le son : sans piste,
+   *  ceux-là repartent sans avoir rien compris. */
+  captions: string;
+  /** Durée affichée sur le bouton, ex. "2 min". La promesse de durée fait
+   *  monter le taux de clic — on sait dans quoi on s'engage. */
+  duration: string;
 }
 
 export const SITE: SiteConfig = {
@@ -48,7 +71,19 @@ export const SITE: SiteConfig = {
 
   // — Conversion —
   calUrl: "https://cal.com/agencesolve/reservez-votre-audit-offert?overlayCalendar=true",
-  vslUrl: "", // TODO — dès qu'elle existe, le lecteur remplace l'illustration
+  vsl: {
+    sources: [
+      { src: "/vsl/nex-vsl.webm", type: 'video/webm; codecs="av01.0.08M.08"' },
+      { src: "/vsl/nex-vsl.mp4", type: "video/mp4" },
+    ],
+    poster: "/vsl/nex-vsl-cover.jpg",
+    hook: "2 h de rapport client. Aujourd’hui, 30 secondes.",
+    speaker: "Lucas · Co-fondateur NeX",
+    // Les sous-titres sont déjà incrustés dans l'image ; une piste .vtt
+    // resterait utile aux lecteurs d'écran et aux moteurs. TODO si besoin.
+    captions: "",
+    duration: "2 min",
+  },
 
   foundingYear: 2024, // TODO — vérifier l'année de création de Scale X Sàrl
 };

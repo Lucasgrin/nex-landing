@@ -44,7 +44,7 @@ export default function FinalCTA() {
                 </svg>
               </a>
               <p className="mono mt-6 text-[10px] tracking-[0.1em] text-white/25">
-                30 MIN · SANS ENGAGEMENT · EN FRANÇAIS
+                30 MIN · SANS ENGAGEMENT
               </p>
               {/* Porte de sortie basse pression — après le CTA, jamais avant. */}
               <p className="mt-9 text-sm text-white/40">

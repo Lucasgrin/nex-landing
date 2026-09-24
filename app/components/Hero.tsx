@@ -1,5 +1,5 @@
 import { SITE } from "../content/site";
-import HeroVisual from "./HeroVisual";
+import VslPlayer from "./VslPlayer";
 
 /**
  * Hero : la VSL est la pièce maîtresse. C'est elle qui explique — le texte
@@ -72,7 +72,7 @@ export default function Hero() {
           </div>
 
           <p className="hero-sub mono text-[10.5px] tracking-[0.08em] text-neutral-400">
-            30 MIN · SANS ENGAGEMENT · EN FRANÇAIS
+            30 MIN · SANS ENGAGEMENT
           </p>
         </div>
 
@@ -80,22 +80,27 @@ export default function Hero() {
             En mobile il remonte entre l'accroche et le bouton (ordre VSL). */}
         <div className="hero-mockup order-2 lg:order-none lg:col-start-2 lg:row-span-2 lg:row-start-1">
           <div className="relative aspect-video overflow-hidden rounded-2xl bg-[#0a0a0a] shadow-[0_32px_80px_rgba(0,0,0,0.14),0_0_0_1px_rgba(0,0,0,0.06)]">
-            {SITE.vslUrl ? (
-              <iframe
-                src={SITE.vslUrl}
-                title="NeX — ce que change un outil construit pour votre métier"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture; fullscreen"
-                allowFullScreen
-                className="absolute inset-0 h-full w-full"
-              />
-            ) : (
-              <HeroVisual />
-            )}
+            <VslPlayer />
           </div>
 
+          {/* La légende décrit ce qui est réellement dans le cadre : la vidéo
+              une fois qu'elle existe, l'illustration en attendant. */}
           <p className="mt-4 text-[13px] leading-relaxed text-neutral-400">
-            <span className="font-medium text-neutral-600">Quatre outils qui ne se parlent pas</span>{" "}
-            — et ce que ça donne une fois réunis dans un seul, construit pour votre métier.
+            {SITE.vsl.sources.length > 0 ? (
+              <>
+                <span className="font-medium text-neutral-600">
+                  Ce que change un outil construit pour votre métier
+                </span>{" "}
+                — en {SITE.vsl.duration || "quelques minutes"}, sans jargon.
+              </>
+            ) : (
+              <>
+                <span className="font-medium text-neutral-600">
+                  Quatre outils qui ne se parlent pas
+                </span>{" "}
+                — et ce que ça donne une fois réunis dans un seul, construit pour votre métier.
+              </>
+            )}
           </p>
         </div>
       </div>

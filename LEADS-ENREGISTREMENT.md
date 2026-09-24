@@ -1,7 +1,7 @@
 # Enregistrer les leads du diagnostic — 5 minutes
 
 Aujourd'hui le code fonctionne déjà sans rien faire : le lead part par email
-chez Resend, avec une reprise automatique si le premier envoi échoue, et un
+chez Resend (et le prospect reçoit son rapport), avec une reprise automatique si le premier envoi échoue, et un
 repli côté visiteur si tout échoue.
 
 Ce fichier décrit l'étape optionnelle qui rend l'ensemble vraiment solide :
@@ -15,8 +15,11 @@ Aucun compte à créer, aucun service à payer.
 Un nouveau Google Sheet. Première ligne, les en-têtes, dans cet ordre :
 
 ```
-Date · Nom · Entreprise · Fonction · Email · Téléphone · Score · Maturité · Heures perdues · Économie annuelle · Automatisables · Frictions · Collaborateurs · Secteur · Clients · Utilisateurs · Outils · Coût outils
+Date · Étiquette · Nom · Entreprise · Fonction · Email · Téléphone · Métier · Collaborateurs · Terrain · Pers. admin · H répétitives/pers. · Outils · Outils connectés · Budget logiciels · Score · Niveau · H perdues/sem. · Coût annuel · Frictions · Priorités · Horizon
 ```
+
+`Étiquette` vaut « Projet < 3 mois », « Problème précis » ou « Veille » :
+triez dessus pour savoir qui rappeler en premier.
 
 ## 2. Coller le script
 
@@ -27,12 +30,13 @@ function doPost(e) {
   const d = JSON.parse(e.postData.contents);
   const l = d.lead || {}, a = d.answers || {}, r = d.result || {};
   SpreadsheetApp.getActiveSpreadsheet().getSheets()[0].appendRow([
-    d.receivedAt || new Date().toISOString(),
+    d.receivedAt || new Date().toISOString(), d.tag,
     l.name, l.company, l.role, l.email, l.phone,
-    r.score, r.maturity, r.hoursLost, r.annualSavings, r.automatizable,
-    (r.frictions || []).join(' · '),
-    a.employees, a.sector, a.clients, a.digitalUsers,
-    (a.tools || []).join(', '), a.toolsCost,
+    a.sector, a.employees, a.fieldTeams, a.adminPeople, a.adminHours,
+    (a.tools || []).join(', '), a.toolsIntegrated, a.toolsCost,
+    r.score, r.maturity, r.hoursLost, r.annualCost,
+    (r.frictions || []).map(f => f.title + ' (~' + f.hours + ' h)').join(' · '),
+    (a.priorities || []).join(', '), a.timing,
   ]);
   return ContentService.createTextOutput('ok');
 }

@@ -1,15 +1,27 @@
 import type { NextConfig } from "next";
-import { CASE_TO_METIER } from "./app/content/cases";
+import { METIER_REDIRECTS } from "./app/content/cases";
 
 const nextConfig: NextConfig = {
+  images: {
+    /**
+     * Les captures d'interface sont pleines de texte de 9 à 11 px. Le WebP
+     * en qualité 75 — la valeur par défaut — le réduit en bouillie : notre
+     * PNG de 119 Ko ressort à 20 Ko, et plus rien ne se lit.
+     *
+     * Next 16 impose de déclarer les qualités autorisées, sans quoi
+     * n'importe qui peut faire réencoder nos images dans 100 variantes.
+     */
+    qualities: [75, 95],
+  },
   /**
-   * Les réalisations fusionnées dans leur page métier redirigent en 301 :
-   * une seule URL canonique par sujet, et le référencement acquis suit.
+   * Les anciennes pages métier redirigent en 301 vers la réalisation ou le
+   * cas d'usage type qui les remplace : une seule URL par sujet, et le
+   * référencement acquis suit.
    */
   async redirects() {
-    return Object.entries(CASE_TO_METIER).map(([slug, metier]) => ({
-      source: `/realisations/${slug}`,
-      destination: `/metiers/${metier}`,
+    return Object.entries(METIER_REDIRECTS).map(([source, destination]) => ({
+      source,
+      destination,
       permanent: true,
     }));
   },

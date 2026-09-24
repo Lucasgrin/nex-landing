@@ -63,7 +63,10 @@ export default function Confidentialite() {
                 <li>
                   <strong className="text-[#0a0a0a]">Via l&apos;outil de diagnostic</strong> : nom,
                   entreprise, fonction, adresse email, numéro de téléphone, ainsi que les réponses que
-                  vous fournissez sur votre organisation (effectif, secteur, outils utilisés).
+                  vous fournissez sur votre organisation (effectif, métier, outils utilisés, temps
+                  consacré aux tâches répétitives, priorités et horizon de votre projet). Une copie
+                  de votre rapport vous est envoyée à l&apos;adresse indiquée — un seul e-mail, sans
+                  inscription à une liste.
                 </li>
                 <li>
                   <strong className="text-[#0a0a0a]">Via la prise de rendez-vous</strong> : les données

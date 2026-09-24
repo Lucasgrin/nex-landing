@@ -35,7 +35,7 @@ export default function PageCTA({
             Diagnostic gratuit <span aria-hidden="true">→</span>
           </Link>
         </div>
-        <p className="mt-5 text-xs text-white/30">Premier échange sans engagement · 30 min · En français</p>
+        <p className="mt-5 text-xs text-white/30">Premier échange sans engagement · 30 min</p>
       </div>
     </section>
   );

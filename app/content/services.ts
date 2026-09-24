@@ -75,7 +75,7 @@ export const SERVICES: Service[] = [
       { q: "Peut-on garder notre logiciel de comptabilité ?", a: "Absolument. Nous nous connectons à ce qui fonctionne déjà — Bexio, Microsoft 365, Google Workspace — plutôt que de tout remplacer. Le but est de supprimer la double saisie, pas votre comptabilité." },
       { q: "Que se passe-t-il si nos processus changent ?", a: "L'outil est conçu pour évoluer. Nous restons partenaires après la livraison : vos règles métier changent, votre ERP change avec elles." },
     ],
-    relatedCases: ["pod-x", "c-carre"],
+    relatedCases: ["pod-x", "c-carre", "1pecc"],
   },
   {
     slug: "portail-client",
@@ -103,7 +103,7 @@ export const SERVICES: Service[] = [
       { q: "Nos données clients sont-elles hébergées en Suisse ?", a: "C'est un choix que nous faisons avec vous au moment du cadrage, selon vos obligations et la sensibilité des données. L'hébergement en Suisse est possible sur l'ensemble de nos projets." },
       { q: "Peut-on donner des accès différents selon les clients ?", a: "Oui. Les droits sont définis par rôle : chaque client, partenaire ou collaborateur ne voit que ce qui le concerne." },
     ],
-    relatedCases: ["welcomize"],
+    relatedCases: ["welcomize", "day"],
   },
   {
     slug: "application-metier",
@@ -131,7 +131,7 @@ export const SERVICES: Service[] = [
       { q: "Que se passe-t-il si NeX s'arrête ?", a: "Vous disposez du code source et de la documentation complète dès la livraison. C'est précisément pour cette raison que nous travaillons avec des technologies répandues plutôt qu'avec un socle propriétaire." },
       { q: "Combien de temps avant de voir quelque chose de concret ?", a: "Vous validez des maquettes interactives avant le développement, puis vous recevez des livraisons régulières. Un outil interne ciblé est généralement utilisable en 4 à 8 semaines." },
     ],
-    relatedCases: ["nyl", "c-carre"],
+    relatedCases: ["nyl", "c-carre", "day", "1pecc"],
   },
   {
     slug: "automatisation-processus",
@@ -159,7 +159,7 @@ export const SERVICES: Service[] = [
       { q: "Par où commencer ?", a: "Par la tâche la plus répétitive et la plus fréquente, rarement par la plus complexe. Notre diagnostic gratuit identifie ces candidats en cinq minutes." },
       { q: "L'automatisation supprime-t-elle des postes ?", a: "Dans les PME que nous accompagnons, elle libère du temps sur des tâches que personne ne revendique. Les équipes ne rétrécissent pas : elles cessent de faire du travail de recopie." },
     ],
-    relatedCases: ["nyl", "pod-x"],
+    relatedCases: ["nyl", "pod-x", "welcomize", "solve"],
   },
   {
     slug: "agents-ia",
@@ -187,7 +187,7 @@ export const SERVICES: Service[] = [
       { q: "L'IA peut-elle se tromper ?", a: "Oui, et c'est pourquoi nous ne la laissons jamais décider seule sur les sujets sensibles. Elle prépare, propose et signale ; un humain valide là où l'erreur coûte cher." },
       { q: "L'IA est-elle obligatoire dans votre approche ?", a: "Absolument pas. Sur une bonne partie de nos projets, le gain vient d'une automatisation classique, plus simple, plus fiable et moins chère. Nous refusons de l'utiliser comme argument commercial." },
     ],
-    relatedCases: ["pod-x"],
+    relatedCases: ["pod-x", "solve"],
   },
 ];
 

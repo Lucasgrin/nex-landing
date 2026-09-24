@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { SERVICES } from "../content/services";
 import { CITIES } from "../content/cities";
-import { METIERS } from "../content/metiers";
+import { ALL_STUDIES, caseHref } from "../content/cases";
 import { SITE, formatAddress, telHref } from "../content/site";
 
 /**
@@ -50,9 +50,9 @@ export default function Footer() {
 
           <nav className="flex flex-col gap-2 text-sm text-neutral-400">
             <p className="mb-1 text-xs font-bold uppercase tracking-widest text-neutral-300">Métiers</p>
-            {METIERS.map((m) => (
-              <Link key={m.slug} href={`/metiers/${m.slug}`} className="transition-colors hover:text-[#0a0a0a]">
-                {m.name}
+            {ALL_STUDIES.map((c) => (
+              <Link key={c.slug} href={caseHref(c.slug)} className="transition-colors hover:text-[#0a0a0a]">
+                {c.sector}
               </Link>
             ))}
           </nav>
@@ -74,6 +74,7 @@ export default function Footer() {
             <p className="mb-1 text-xs font-bold uppercase tracking-widest text-neutral-300">Agence</p>
             <Link href="/a-propos" className="transition-colors hover:text-[#0a0a0a]">À propos</Link>
             <Link href="/realisations" className="transition-colors hover:text-[#0a0a0a]">Réalisations</Link>
+            <Link href="/blog" className="transition-colors hover:text-[#0a0a0a]">Blog</Link>
             <Link href="/diagnostic" className="transition-colors hover:text-[#0a0a0a]">Diagnostic gratuit</Link>
             <Link href="/#methode" className="transition-colors hover:text-[#0a0a0a]">Méthode</Link>
             <Link href="/#faq" className="transition-colors hover:text-[#0a0a0a]">FAQ</Link>

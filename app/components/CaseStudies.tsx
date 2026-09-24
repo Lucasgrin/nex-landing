@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import AnimateOnScroll from "./AnimateOnScroll";
-import { Photo } from "./Photo";
+import CaseStats from "./CaseStats";
 import { PUBLISHED_CASES, LANDING_CASE_SLUGS, caseHref } from "../content/cases";
 
 /**
@@ -23,8 +23,7 @@ export default function CaseStudies({ variant = "grid" }: { variant?: "grid" | "
             Des projets réels. Des résultats concrets.
           </h2>
           <p className="text-base text-neutral-500 max-w-lg mb-16 leading-relaxed">
-            Quatre entreprises, quatre problèmes différents. À chaque fois, un outil conçu à partir de
-            leurs processus réels — pas d&apos;un modèle standard.
+            {`${PUBLISHED_CASES.length} entreprises, ${PUBLISHED_CASES.length} problèmes différents. À chaque fois, un outil conçu à partir de leurs processus réels — pas d'un modèle standard.`}
           </p>
         </AnimateOnScroll>
 
@@ -37,38 +36,36 @@ export default function CaseStudies({ variant = "grid" }: { variant?: "grid" | "
               >
                 <CaseVisual
                   study={c}
-                  className="aspect-[16/10] w-full border-b border-neutral-100"
-                  sizes="(max-width: 768px) 100vw, 560px"
+                  className="h-[180px] w-full border-b border-neutral-100 md:h-[200px]"
+                  logoClass="h-[52px] w-[190px] md:h-[58px] md:w-[210px]"
                 />
+                <CaseStats stats={c.stats} scale="card" className="border-b border-neutral-100 px-8 py-7" />
                 <div className="flex flex-1 flex-col p-8">
-                  <div className="mb-5 flex items-start justify-between gap-4">
-                    <div>
-                      <p className="text-xl font-bold text-[#0a0a0a]" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-                        {c.client}
-                      </p>
-                      <span className="text-xs font-medium text-neutral-400">{c.type}</span>
-                    </div>
-                    <Image
-                      src={c.logo}
-                      alt={`Logo ${c.client}`}
-                      width={72}
-                      height={26}
-                      className="h-6 w-auto shrink-0 opacity-30 grayscale transition-opacity duration-300 group-hover:opacity-60"
-                    />
+                  {/* Le logo est maintenant dans la plaque : ici, le nom écrit
+                      en toutes lettres, pour qui ne le reconnaît pas. */}
+                  <div className="mb-5">
+                    <p className="text-xl font-bold text-[#0a0a0a]" style={{ fontFamily: "var(--font-space-grotesk)" }}>
+                      {c.client}
+                    </p>
+                    <span className="text-xs font-medium text-neutral-400">{c.type}</span>
                   </div>
 
-                  <p className="mb-6 text-sm leading-relaxed text-neutral-500">{c.summary}</p>
+                  <p className="text-sm leading-relaxed text-neutral-500">{c.summary}</p>
 
-                  <ul className="mt-auto space-y-2">
-                    {c.gains.map((g) => (
-                      <li key={g} className="flex items-start gap-2.5 text-sm text-neutral-600">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="mt-1 shrink-0 text-[#0a0a0a]" aria-hidden="true">
-                          <path d="M20 6 9 17l-5-5" />
-                        </svg>
-                        {g}
-                      </li>
-                    ))}
-                  </ul>
+                  {/* mt-auto : les cartes d'une même ligne gardent leur pied
+                      aligné quelle que soit la longueur du résumé. */}
+                  <div className="mt-auto">
+                    <ul className="mt-6 space-y-2">
+                      {c.gains.map((g) => (
+                        <li key={g} className="flex items-start gap-2.5 text-sm text-neutral-600">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="mt-1 shrink-0 text-[#0a0a0a]" aria-hidden="true">
+                            <path d="M20 6 9 17l-5-5" />
+                          </svg>
+                          {g}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
 
                   <span className="mt-7 inline-flex items-center gap-1.5 text-sm font-semibold text-[#0a0a0a]">
                     Lire l&apos;étude de cas
@@ -88,9 +85,8 @@ export default function CaseStudies({ variant = "grid" }: { variant?: "grid" | "
  * Variante home : un rail horizontal qui déborde volontairement du cadre —
  * c'est ce débordement qui dit au visiteur qu'il peut faire défiler.
  *
- * Là où une réalisation porte un chiffre solide, on affiche le chiffre plutôt
- * qu'une capture : à 168 px de haut, une capture d'outil métier est illisible,
- * alors qu'un « ÷2 » se lit en un dixième de seconde.
+ * Les cartes sont volontairement courtes : le logo, le nom, le type et une
+ * ligne. Le détail vit sur la page de la réalisation, pas ici.
  */
 function CaseRail() {
   const cases = LANDING_CASE_SLUGS.map((slug) =>
@@ -124,7 +120,6 @@ function CaseRail() {
 
       <div className="mx-auto flex max-w-[1240px] snap-x snap-mandatory gap-3.5 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {cases.map((c, i) => {
-          const metric = c.metrics[0];
           return (
             <AnimateOnScroll key={c.slug} delay={i * 70} className="snap-start">
               <Link
@@ -133,25 +128,23 @@ function CaseRail() {
               >
                 <CaseVisual
                   study={c}
-                  className="h-[168px] w-full border-b border-neutral-100"
-                  sizes="340px"
+                  className="h-[150px] w-full border-b border-neutral-100"
+                  logoClass="h-[42px] w-[150px]"
                 />
+                <CaseStats stats={c.stats} scale="rail" className="border-b border-neutral-100 px-5 py-5" />
                 <div className="p-5">
                   <div className="mb-3 flex items-center justify-between gap-3">
-                    <Image
-                      src={c.logo}
-                      alt={`Logo ${c.client}`}
-                      width={72}
-                      height={17}
-                      className="h-[17px] w-auto opacity-50 grayscale"
-                    />
+                    <span
+                      className="text-[15px] font-bold text-[#0a0a0a]"
+                      style={{ fontFamily: "var(--font-space-grotesk)" }}
+                    >
+                      {c.client}
+                    </span>
                     <span className="mono shrink-0 text-[9.5px] uppercase tracking-[0.08em] text-neutral-400">
                       {c.type}
                     </span>
                   </div>
-                  <p className="text-[13.5px] leading-relaxed text-neutral-500">
-                    {metric ? `${metric.value} sur le ${metric.label}. ${c.summary}` : c.summary}
-                  </p>
+                  <p className="text-[13.5px] leading-relaxed text-neutral-500">{c.summary}</p>
                 </div>
               </Link>
             </AnimateOnScroll>
@@ -163,38 +156,26 @@ function CaseRail() {
 }
 
 /**
- * Visuel de tête d'une réalisation, par ordre de force :
- *   1. le chiffre, quand il y en a un — c'est ce qui se lit le plus vite ;
- *   2. la capture, quand elle existe ;
- *   3. à défaut, le type de projet en grand, sur la trame du site.
- * Le troisième cas doit ressembler à un choix, pas à un trou.
+ * Visuel de tête d'une réalisation.
+ *
+ * Le logo du client, et rien d'autre. On a essayé d'y mettre la capture de
+ * l'outil : réduite à 180 px de haut, elle ne montre rien qu'un logo ne
+ * montre mieux, et elle rendait ces cartes différentes des quatre autres.
+ * Le logo se reconnaît, il est vrai, et il dit « cette entreprise existe ».
+ * Les écrans, eux, ont leur place sur la page de la réalisation.
+ *
+ * Les chiffres, eux, ne sont pas ici : ils ont leur propre bande sous la
+ * plaque — voir CaseStats.
  */
 function CaseVisual({
   study,
   className,
-  sizes,
+  logoClass,
 }: {
   study: (typeof PUBLISHED_CASES)[number];
   className: string;
-  sizes: string;
+  logoClass: string;
 }) {
-  const metric = study.metrics[0];
-
-  if (metric)
-    return (
-      <div className={`flex items-center justify-center bg-[#0a0a0a] ${className}`}>
-        <span
-          className="text-5xl font-bold tracking-[-0.03em] text-white"
-          style={{ fontFamily: "var(--font-space-grotesk)" }}
-        >
-          {metric.value}
-        </span>
-      </div>
-    );
-
-  if (study.photo)
-    return <Photo src={study.photo} alt={study.photoAlt} className={className} sizes={sizes} />;
-
   return (
     <div className={`relative flex items-center justify-center overflow-hidden bg-neutral-50 ${className}`}>
       <div
@@ -206,12 +187,14 @@ function CaseVisual({
           backgroundSize: "32px 32px",
         }}
       />
-      <span
-        className="relative px-6 text-center text-xl font-bold leading-tight tracking-tight text-neutral-300"
-        style={{ fontFamily: "var(--font-space-grotesk)" }}
-      >
-        {study.type}
-      </span>
+      {/* Les logos clients sont colorés : on les laisse tels quels. Les
+          passer en noir et blanc ou les inverser casserait le bleu 1pecc,
+          le violet Welcomize et le doré C Carré. Boîte de taille fixe +
+          `fill` + object-contain : chaque logo est cadré à l'identique
+          quelle que soit sa proportion. */}
+      <div className={`relative ${logoClass}`}>
+        <Image src={study.logo} alt={`Logo ${study.client}`} fill sizes="220px" className="object-contain" />
+      </div>
     </div>
   );
 }
