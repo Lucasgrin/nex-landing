@@ -1,108 +1,146 @@
 import AnimateOnScroll from "./AnimateOnScroll";
 
-const MonitorIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-    <rect x="2" y="3" width="20" height="14" rx="2" />
-    <path d="M8 21h8M12 17v4" />
-  </svg>
-);
+/**
+ * Les six briques, en rail horizontal.
+ *
+ * Chaque carte porte une micro-illustration animée plutôt qu'une icône morte :
+ * la brique qui se cale, le visiteur qui entre dans le portail, le document que
+ * l'IA balaie. Le rail déborde du cadre — c'est le signal qu'on peut défiler.
+ */
 
-const UsersIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-    <circle cx="9" cy="7" r="4" />
-    <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-  </svg>
-);
-
-const ZapIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-  </svg>
-);
-
-const SparkleIcon = () => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-    <path d="M12 2L13.8 8.2L20 10L13.8 11.8L12 18L10.2 11.8L4 10L10.2 8.2L12 2Z" />
-    <path d="M5 3.5L5.8 5.8L8 6.5L5.8 7.2L5 9.5L4.2 7.2L2 6.5L4.2 5.8L5 3.5Z" opacity="0.5" />
-    <path d="M19 14L19.8 16.3L22 17L19.8 17.7L19 20L18.2 17.7L16 17L18.2 16.3L19 14Z" opacity="0.5" />
-  </svg>
-);
-
-const BarChartIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-    <line x1="18" y1="20" x2="18" y2="10" />
-    <line x1="12" y1="20" x2="12" y2="4" />
-    <line x1="6" y1="20" x2="6" y2="14" />
-  </svg>
-);
-
-const LinkIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-  </svg>
-);
-
-const cards = [
-  { Icon: MonitorIcon,  title: "Logiciels métier",        items: ["CRM sur mesure", "ERP sur mesure", "Applications internes"] },
-  { Icon: UsersIcon,    title: "Portails",                 items: ["Portail clients", "Espace collaborateurs", "Interface partenaires"] },
-  { Icon: ZapIcon,      title: "Automatisations",          items: ["Workflows métier", "Synchronisations", "Notifications automatiques"] },
-  { Icon: SparkleIcon,  title: "Intelligence artificielle",items: ["Assistants métier", "Analyse documentaire", "Agents IA"] },
-  { Icon: BarChartIcon, title: "Dashboards",               items: ["KPIs en temps réel", "Reporting", "Pilotage"] },
-  { Icon: LinkIcon,     title: "Intégrations",             items: ["Bexio · Microsoft 365", "Google Workspace", "API & connecteurs"] },
-];
+function Card({
+  title,
+  desc,
+  dark = false,
+  children,
+}: {
+  title: string;
+  desc: string;
+  dark?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      className={`w-[268px] shrink-0 snap-start rounded-2xl border p-[22px] sm:w-[288px] ${
+        dark ? "border-[#0a0a0a] bg-[#0a0a0a]" : "border-neutral-100 bg-white"
+      }`}
+    >
+      <div className="mb-4 h-[72px]">{children}</div>
+      <h3
+        className={`mb-2 text-[15px] font-bold ${dark ? "text-white" : "text-[#0a0a0a]"}`}
+        style={{ fontFamily: "var(--font-space-grotesk)" }}
+      >
+        {title}
+      </h3>
+      <p className={`text-[13px] leading-relaxed ${dark ? "text-white/50" : "text-neutral-500"}`}>
+        {desc}
+      </p>
+    </div>
+  );
+}
 
 export default function WhatWeBuild() {
   return (
-    <section id="services" className="py-28 px-6 bg-neutral-50 border-y border-neutral-100">
-      <div className="max-w-5xl mx-auto">
-
+    <section id="services" className="px-6 py-20 md:px-10 md:py-24">
+      <div className="mx-auto max-w-[1240px]">
         <AnimateOnScroll>
-          <p className="text-xs font-semibold text-neutral-400 uppercase tracking-widest mb-4">Ce que nous construisons</p>
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-[#0a0a0a] mb-5 max-w-xl leading-[1.08]"
-              style={{fontFamily:"var(--font-space-grotesk)"}}>
-            Les outils dont votre entreprise a réellement besoin.
+          <p className="mono mb-3.5 text-[10.5px] uppercase tracking-[0.16em] text-neutral-400">
+            Ce que nous construisons
+          </p>
+          <h2
+            className="mb-3.5 max-w-3xl text-3xl font-bold leading-[1.1] tracking-tight text-[#0a0a0a] md:text-[40px]"
+            style={{ fontFamily: "var(--font-space-grotesk)" }}
+          >
+            Six briques. Assemblées pour vous.
           </h2>
-          <p className="text-base text-neutral-500 max-w-lg mb-16 leading-relaxed">
-            Nous ne vendons pas de technologie. Nous concevons les bons outils en fonction de vos processus et de vos objectifs.
+          <p className="mb-9 max-w-[520px] text-[15.5px] leading-relaxed text-neutral-500">
+            On ne vend pas un produit à configurer. On assemble ce dont votre métier a besoin — et
+            rien d&apos;autre.
           </p>
         </AnimateOnScroll>
+      </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
-          {cards.map(({ Icon, title, items }, i) => (
-            <AnimateOnScroll key={title} delay={i * 60}>
-              <div className="group h-full bg-white border border-neutral-100 rounded-2xl p-7 hover:border-neutral-300 hover:-translate-y-1 hover:shadow-md transition-all duration-200">
-                <div className="w-10 h-10 rounded-xl bg-neutral-50 border border-neutral-100 flex items-center justify-center text-neutral-500 mb-5 group-hover:bg-[#0a0a0a] group-hover:text-white group-hover:border-[#0a0a0a] transition-all duration-200">
-                  <Icon />
-                </div>
-                <h3 className="text-sm font-bold text-[#0a0a0a] mb-3"
-                    style={{fontFamily:"var(--font-space-grotesk)"}}>{title}</h3>
-                <ul className="space-y-1.5">
-                  {items.map(item => (
-                    <li key={item} className="flex items-center gap-2 text-sm text-neutral-500">
-                      <span className="w-1 h-1 rounded-full bg-neutral-300 shrink-0" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </AnimateOnScroll>
-          ))}
-        </div>
+      <div className="mx-auto flex max-w-[1240px] snap-x snap-mandatory gap-3.5 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
 
-        <AnimateOnScroll delay={400}>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 bg-white border border-neutral-100 rounded-2xl px-8 py-6">
-            <p className="text-sm text-neutral-500 max-w-sm leading-relaxed">
-              Chaque projet est différent. Nous construisons uniquement ce qui apporte une réelle valeur à votre entreprise.
-            </p>
-            <a href="https://cal.com/agencesolve/reservez-votre-audit-offert?overlayCalendar=true" target="_blank" rel="noopener noreferrer"
-               className="shrink-0 inline-flex items-center gap-2 bg-[#0a0a0a] text-white text-sm font-semibold px-6 py-3 rounded-full hover:bg-neutral-800 transition-colors whitespace-nowrap">
-              Réserver un appel <span>→</span>
-            </a>
+        <Card title="Logiciels métier" desc="CRM, ERP, applications internes — calqués sur vos flux réels, pas sur un standard.">
+          <div className="flex h-full flex-col justify-center gap-1.5" aria-hidden>
+            <div className="h-[15px] w-full rounded-[5px] bg-neutral-100" />
+            <div className="slidein h-[15px] w-[68%] rounded-[5px] bg-[#0a0a0a]" />
+            <div className="h-[15px] w-[86%] rounded-[5px] bg-neutral-100" />
           </div>
-        </AnimateOnScroll>
+        </Card>
 
+        <Card title="Portails" desc="Vos clients et partenaires voient où en est leur dossier, sans vous le demander.">
+          <div className="relative flex h-full items-center" aria-hidden>
+            <span className="enterdoor absolute left-2 flex h-[26px] w-[26px] items-center justify-center rounded-full bg-[#0a0a0a]">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2">
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 21c0-4 3.6-6 8-6s8 2 8 6" />
+              </svg>
+            </span>
+            <span className="absolute left-[62px] h-16 w-[52px] rounded-lg border border-neutral-200 bg-neutral-50" />
+            <span className="breathe absolute left-[106px] h-[5px] w-[5px] rounded-full bg-green-400" />
+          </div>
+        </Card>
+
+        <Card title="Automatisations" desc="Relances, synchronisations, rapports. Ça tourne la nuit, vous supervisez le matin.">
+          <div className="flex h-full items-center pl-5" aria-hidden>
+            <div className="relative h-11 w-11">
+              <div className="absolute inset-0 rounded-full border-[1.5px] border-dashed border-neutral-200" />
+              <div className="orbit absolute left-1/2 top-1/2 -ml-1 -mt-1 h-2 w-2 rounded-full bg-[#0a0a0a]" />
+            </div>
+          </div>
+        </Card>
+
+        <Card dark title="Intelligence artificielle" desc="Lecture de documents, rédaction, décisions selon vos règles. Là où c'est mesurable.">
+          <div className="flex h-full items-center pl-2" aria-hidden>
+            <div className="relative h-[58px] w-[46px] overflow-hidden rounded-md border border-white/[0.18] bg-white/[0.04]">
+              <div className="flex flex-col gap-1 p-2">
+                {["100%", "78%", "90%", "62%"].map((w, i) => (
+                  <span key={i} className="h-[3px] rounded-sm bg-white/20" style={{ width: w }} />
+                ))}
+              </div>
+              <div
+                className="scan absolute left-0 right-0 top-1 h-px"
+                style={{ background: "linear-gradient(90deg,transparent,#4ade80,transparent)" }}
+              />
+            </div>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.3)" strokeWidth="2" className="mx-2.5">
+              <path d="M5 12h13M13 6l6 6-6 6" />
+            </svg>
+            <div className="rounded-full bg-green-400/[0.14] px-2.5 py-1.5">
+              <span className="mono text-[9.5px] text-green-400">TRIÉ</span>
+            </div>
+          </div>
+        </Card>
+
+        <Card title="Dashboards" desc="Les chiffres qui comptent pour vous, à jour en temps réel.">
+          <div className="flex h-full items-end gap-[7px] pl-1" aria-hidden>
+            {[
+              { h1: "22px", h2: "44px", dark: false, d: "0s" },
+              { h1: "48px", h2: "30px", dark: true, d: ".4s" },
+              { h1: "30px", h2: "56px", dark: false, d: ".8s" },
+              { h1: "40px", h2: "24px", dark: false, d: "1.2s" },
+            ].map((b, i) => (
+              <span
+                key={i}
+                className={`bar w-[13px] rounded-[3px] ${b.dark ? "bg-[#0a0a0a]" : "bg-neutral-100"}`}
+                style={
+                  { "--h1": b.h1, "--h2": b.h2, animationDelay: b.d } as React.CSSProperties
+                }
+              />
+            ))}
+          </div>
+        </Card>
+
+        <Card title="Intégrations" desc="Bexio, Microsoft 365, Google Workspace. Plus de double saisie.">
+          <div className="relative flex h-full items-center gap-12 pl-1.5" aria-hidden>
+            <span className="h-[26px] w-[26px] rounded-[7px] border border-neutral-200 bg-neutral-50" />
+            <span className="h-[26px] w-[26px] rounded-[7px] border border-neutral-200 bg-neutral-50" />
+            <span className="absolute left-8 right-0 top-1/2 h-px bg-neutral-100" />
+            <span className="pingpong absolute left-8 top-1/2 -mt-[3px] h-1.5 w-1.5 rounded-full bg-[#0a0a0a]" />
+          </div>
+        </Card>
       </div>
     </section>
   );
