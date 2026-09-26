@@ -10,7 +10,23 @@ export interface Service {
   metaTitle: string;
   metaDescription: string;
   h1: string;
+  /**
+   * Le texte long, gardé pour le référencement et les pages ville. Il n'est
+   * plus affiché en tête de page : c'est `pitch` qui dit ce que c'est.
+   */
   intro: string;
+  /** Ce que c'est, en une phrase. Le visiteur doit comprendre en trois secondes. */
+  pitch: string;
+  /**
+   * Le problème, dans les mots du prospect — pas dans les nôtres. Sert au
+   * sélecteur « Quel est votre problème ? » : on ne cherche pas un « ERP »,
+   * on a des stocks et une facturation qui ne se parlent pas.
+   */
+  problem: string;
+  /** « En un coup d'œil » : trois réponses courtes, lues avant tout le reste. */
+  glance: { forWho: string; replaces: string; gain: string };
+  /** Le contraste, trois lignes. Ce que le visiteur retient s'il ne lit rien d'autre. */
+  beforeAfter: { before: string; after: string }[];
   /** Symptômes concrets. Le visiteur doit se reconnaître en une lecture. */
   symptoms: string[];
   /** Ce que NeX livre pour cette expertise. */
@@ -48,6 +64,19 @@ export const SERVICES: Service[] = [
       { q: "Combien de temps pour un CRM sur mesure ?", a: "Comptez généralement 2 à 4 mois pour un CRM complet, avec des livraisons intermédiaires que vous utilisez avant la fin du projet." },
     ],
     relatedCases: ["nyl", "pod-x"],
+    pitch:
+      "Un CRM construit autour de votre façon de vendre : vos étapes, vos champs, vos relances — sans licence par utilisateur.",
+    problem: "Mes prospects se perdent entre Excel, e-mails et mémoire",
+    glance: {
+      forWho: "Les PME qui vendent en plusieurs étapes : demande, devis, relance, signature.",
+      replaces: "Le CRM du marché qu'on contourne, les fichiers Excel parallèles, les relances de tête.",
+      gain: "Chaque affaire suivie jusqu'au bout, et un pipeline lisible à tout moment.",
+    },
+    beforeAfter: [
+      { before: "Chaque commercial tient son propre fichier Excel", after: "Une seule base, partagée et toujours à jour" },
+      { before: "Les étapes du CRM ne collent pas à votre cycle de vente", after: "Le pipeline reprend exactement vos étapes" },
+      { before: "Une affaire se perd faute de relance", after: "Les relances partent seules, au bon moment" },
+    ],
   },
   {
     slug: "erp-sur-mesure",
@@ -76,6 +105,19 @@ export const SERVICES: Service[] = [
       { q: "Que se passe-t-il si nos processus changent ?", a: "L'outil est conçu pour évoluer. Nous restons partenaires après la livraison : vos règles métier changent, votre ERP change avec elles." },
     ],
     relatedCases: ["pod-x", "c-carre", "1pecc"],
+    pitch:
+      "Stocks, achats, production, facturation et pilotage dans un seul outil, construit autour de vos processus — pas l'inverse.",
+    problem: "Mes stocks, ma facturation et ma production ne se parlent pas",
+    glance: {
+      forWho: "Les PME qui produisent, stockent ou mènent plusieurs activités en parallèle.",
+      replaces: "Trois ou quatre outils déconnectés, les exports Excel et les consolidations à la main.",
+      gain: "Des chiffres consolidés en temps réel, sans demi-journée de retraitement.",
+    },
+    beforeAfter: [
+      { before: "Stocks, facturation et production dans trois outils", after: "Un seul outil, une seule source de vérité" },
+      { before: "Un chiffre consolidé coûte une demi-journée d'Excel", after: "Les indicateurs se lisent en temps réel" },
+      { before: "Chaque évolution passe par un intégrateur et un devis", after: "L'outil suit vos règles quand elles changent" },
+    ],
   },
   {
     slug: "portail-client",
@@ -104,6 +146,19 @@ export const SERVICES: Service[] = [
       { q: "Peut-on donner des accès différents selon les clients ?", a: "Oui. Les droits sont définis par rôle : chaque client, partenaire ou collaborateur ne voit que ce qui le concerne." },
     ],
     relatedCases: ["welcomize", "day"],
+    pitch:
+      "Un espace où vos clients suivent leur dossier, retrouvent leurs documents et échangent avec vous — sans avoir à vous appeler.",
+    problem: "Mes clients m'appellent sans arrêt pour savoir où en est leur dossier",
+    glance: {
+      forWho: "Les entreprises de services dont les clients attendent des nouvelles : fiduciaires, régies, courtiers, agences.",
+      replaces: "Les appels « où en est mon dossier ? », les pièces jointes en double, les échanges sur WhatsApp.",
+      gain: "Moins d'interruptions pour l'équipe, plus de confiance chez le client.",
+    },
+    beforeAfter: [
+      { before: "Le client appelle pour savoir où en est son dossier", after: "Il voit l'avancement en temps réel, sans demander" },
+      { before: "Les documents circulent en pièces jointes, en plusieurs versions", after: "Une bibliothèque unique, versionnée, avec validations" },
+      { before: "Les échanges se dispersent entre e-mail, WhatsApp et téléphone", after: "Chaque message reste rattaché au bon dossier" },
+    ],
   },
   {
     slug: "application-metier",
@@ -132,6 +187,19 @@ export const SERVICES: Service[] = [
       { q: "Combien de temps avant de voir quelque chose de concret ?", a: "Vous validez des maquettes interactives avant le développement, puis vous recevez des livraisons régulières. Un outil interne ciblé est généralement utilisable en 4 à 8 semaines." },
     ],
     relatedCases: ["nyl", "c-carre", "day", "1pecc"],
+    pitch:
+      "Quand aucun logiciel ne couvre votre métier : un outil conçu avec vos équipes, qui remplace l'Excel critique et les contournements.",
+    problem: "Toute mon activité tient dans un Excel que seule une personne maîtrise",
+    glance: {
+      forWho: "Les métiers spécifiques qu'aucun logiciel du marché ne couvre correctement.",
+      replaces: "L'Excel critique, les habitudes non écrites, les logiciels abandonnés faute d'adaptation.",
+      gain: "Un outil que vos équipes utilisent vraiment, et un savoir-faire qui ne dépend plus d'une seule personne.",
+    },
+    beforeAfter: [
+      { before: "Un Excel critique qu'une seule personne sait faire tourner", after: "Un outil partagé, documenté, sans point de rupture" },
+      { before: "Les process reposent sur des habitudes non écrites", after: "Les règles métier sont inscrites dans l'outil" },
+      { before: "Un nouvel arrivant met des semaines à comprendre", after: "L'outil le guide, étape par étape" },
+    ],
   },
   {
     slug: "automatisation-processus",
@@ -160,6 +228,19 @@ export const SERVICES: Service[] = [
       { q: "L'automatisation supprime-t-elle des postes ?", a: "Dans les PME que nous accompagnons, elle libère du temps sur des tâches que personne ne revendique. Les équipes ne rétrécissent pas : elles cessent de faire du travail de recopie." },
     ],
     relatedCases: ["nyl", "pod-x", "welcomize", "solve"],
+    pitch:
+      "Vos outils se parlent tout seuls : plus de double saisie, des relances et des rapports qui partent sans vous.",
+    problem: "Je recopie les mêmes informations dans plusieurs outils",
+    glance: {
+      forWho: "Toute PME dont l'équipe recopie, relance ou refait les mêmes rapports chaque semaine.",
+      replaces: "La double saisie, les relances de mémoire, les rapports refaits à la main.",
+      gain: "Des heures rendues chaque semaine, et plus d'erreur de recopie.",
+    },
+    beforeAfter: [
+      { before: "La même donnée saisie dans trois outils", after: "Saisie une fois, synchronisée partout" },
+      { before: "Une demi-journée par semaine pour le même rapport", after: "Le rapport se génère et part tout seul" },
+      { before: "Les relances dépendent de la mémoire de chacun", after: "Elles partent selon vos règles, sans oubli" },
+    ],
   },
   {
     slug: "agents-ia",
@@ -188,6 +269,19 @@ export const SERVICES: Service[] = [
       { q: "L'IA est-elle obligatoire dans votre approche ?", a: "Absolument pas. Sur une bonne partie de nos projets, le gain vient d'une automatisation classique, plus simple, plus fiable et moins chère. Nous refusons de l'utiliser comme argument commercial." },
     ],
     relatedCases: ["pod-x", "solve"],
+    pitch:
+      "De l'IA branchée sur vos données, uniquement là où elle fait gagner un temps mesurable : lire, trier, préparer. Un humain valide.",
+    problem: "Mes équipes lisent et ressaisissent des documents à longueur de journée",
+    glance: {
+      forWho: "Les PME qui traitent un volume réel de documents, de demandes ou de questions répétitives.",
+      replaces: "La lecture et la ressaisie manuelles, le tri à la main, les réponses copiées-collées.",
+      gain: "Du temps rendu sur le répétitif, sans perdre le contrôle des décisions.",
+    },
+    beforeAfter: [
+      { before: "Factures et formulaires ressaisis à la main", after: "L'IA extrait les données, un humain valide" },
+      { before: "Les demandes entrantes triées une par une", after: "Elles arrivent classées, à la bonne personne" },
+      { before: "Les mêmes questions, les mêmes réponses, chaque semaine", after: "Un assistant répond à partir de votre documentation" },
+    ],
   },
 ];
 
