@@ -69,7 +69,7 @@ export const SITE: SiteConfig = {
   // L'URL stable de la fiche (son identifiant kgmid), pas le lien « Partager »
   // share.google/… : celui-ci n'est qu'une redirection qui peut changer.
   googleBusinessUrl: "https://www.google.com/search?kgmid=/g/11zgw6qmjg",
-  linkedinUrl: "", // TODO — page entreprise LinkedIn
+  linkedinUrl: "https://www.linkedin.com/company/agence-nex/",
 
   // — Conversion —
   calUrl: "https://cal.com/agencesolve/reservez-votre-audit-offert?overlayCalendar=true",
