@@ -36,6 +36,23 @@ function tooMany(ip: string): boolean {
   return recent.length > 5;
 }
 
+/**
+ * Plafond global des rapports envoyés aux prospects, toutes IP confondues.
+ * La limite par IP ne suffit pas contre un attaquant qui en change : sans
+ * plafond, il pourrait faire envoyer des centaines d'e-mails en notre nom et
+ * ruiner la réputation du domaine. Au-delà, on continue de NOUS notifier —
+ * un vrai lead n'est jamais perdu — mais le rapport au prospect ne part plus.
+ */
+const REPORTS_PER_HOUR = 30;
+let reportTimes: number[] = [];
+function reportAllowed(): boolean {
+  const now = Date.now();
+  reportTimes = reportTimes.filter((t) => now - t < 60 * 60_000);
+  if (reportTimes.length >= REPORTS_PER_HOUR) return false;
+  reportTimes.push(now);
+  return true;
+}
+
 function escapeHtml(value: string) {
   return value.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
 }
@@ -233,7 +250,7 @@ export async function POST(request: Request) {
         html: renderNotification(lead, answers, result),
       }, "notification"),
       // Le rapport du prospect : utile, mais jamais bloquant pour la suite.
-      send(resend, {
+      !reportAllowed() ? Promise.resolve(false) : send(resend, {
         from, to: lead.email, replyTo: SITE.email,
         subject: `Votre diagnostic — ${result.hoursLost} h perdues par semaine chez ${lead.company}`,
         html: renderReport(lead, answers, result),
