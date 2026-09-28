@@ -1,7 +1,33 @@
 import type { NextConfig } from "next";
 import { METIER_REDIRECTS } from "./app/content/cases";
 
+/**
+ * En-têtes de sécurité, sur toutes les pages.
+ *
+ * La CSP ne restreint volontairement ni les scripts ni les styles : Next
+ * injecte des scripts en ligne (hydratation, JSON-LD) qu'une CSP stricte
+ * obligerait à signer un par un. Elle ferme en revanche ce qui ne sert à
+ * rien ici et que les attaques exploitent : être affiché dans une iframe
+ * (clickjacking), les plugins, et la réécriture de <base>.
+ */
+const SECURITY_HEADERS = [
+  { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains" },
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "X-Frame-Options", value: "DENY" },
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), payment=()" },
+  {
+    key: "Content-Security-Policy",
+    value: "frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests",
+  },
+];
+
 const nextConfig: NextConfig = {
+  // Inutile d'annoncer la technologie du serveur à qui cherche une faille.
+  poweredByHeader: false,
+  async headers() {
+    return [{ source: "/:path*", headers: SECURITY_HEADERS }];
+  },
   images: {
     /**
      * Les captures d'interface sont pleines de texte de 9 à 11 px. Le WebP
