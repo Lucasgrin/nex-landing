@@ -23,7 +23,8 @@ export function organizationJsonLd() {
     "@id": ORG_ID,
     name: SITE.name,
     legalName: SITE.legalName,
-    alternateName: SITE.legalName,
+    // « Agence NeX » est le nom de la fiche Google : le déclarer ici relie les deux.
+    alternateName: ["Agence NeX", SITE.legalName],
     url: SITE.url,
     logo: `${SITE.url}/apple-icon.png`,
     image: `${SITE.url}/opengraph-image`,

@@ -62,11 +62,13 @@ export const SITE: SiteConfig = {
   city: "Payerne",
   region: "Vaud",
   country: "CH",
-  phone: "", // TODO — format international, ex. "+41 26 000 00 00"
+  phone: "+41 79 466 02 78",
   email: "hello@ne-x.ch",
 
   // — Profils externes (champ sameAs du schema : consolide le signal local) —
-  googleBusinessUrl: "", // TODO — lien "Partager" de ta fiche Google Business
+  // L'URL stable de la fiche (son identifiant kgmid), pas le lien « Partager »
+  // share.google/… : celui-ci n'est qu'une redirection qui peut changer.
+  googleBusinessUrl: "https://www.google.com/search?kgmid=/g/11zgw6qmjg",
   linkedinUrl: "", // TODO — page entreprise LinkedIn
 
   // — Conversion —
