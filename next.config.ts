@@ -19,11 +19,21 @@ const nextConfig: NextConfig = {
    * référencement acquis suit.
    */
   async redirects() {
-    return Object.entries(METIER_REDIRECTS).map(([source, destination]) => ({
-      source,
-      destination,
-      permanent: true,
-    }));
+    return [
+      // Une seule adresse pour Google : www.ne-x.ch renvoie en 301 vers
+      // ne-x.ch, chemin compris. Sans ça, les deux se feraient concurrence.
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.ne-x.ch" }],
+        destination: "https://ne-x.ch/:path*",
+        permanent: true,
+      },
+      ...Object.entries(METIER_REDIRECTS).map(([source, destination]) => ({
+        source,
+        destination,
+        permanent: true,
+      })),
+    ];
   },
 };
 
